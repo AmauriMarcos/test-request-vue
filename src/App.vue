@@ -1,32 +1,35 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
-  </div>
+   <div id='app'>
+      <h1>Form</h1>
+      <Formulario></Formulario>
+   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import Formulario from "./components/Formulario";
 
-#nav {
-  padding: 30px;
+export default {
+  name: "App",
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+  components: {
+    Formulario
+  },
 
-    &.router-link-exact-active {
-      color: #42b983;
+  data(){
+    return{
+
     }
   }
-}
+};
+</script>
+
+<style lang="scss">
+
+  h1{
+    text-align: center;
+  }
+  
+  #app{
+    padding: 3% 15%;
+  }
 </style>
