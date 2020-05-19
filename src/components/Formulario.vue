@@ -1,5 +1,20 @@
 <template>
   <div >
+    <p>{{luz}}</p>
+    <div id="app" v-if='visible'>
+      <v-app id="inspire">
+      <div class="text-center">
+        
+        <v-progress-circular
+          :size="70"
+          :width="7"
+          color="purple"
+          indeterminate
+        ></v-progress-circular> 
+      </div>
+      </v-app>
+    </div>
+
     <v-app>
       <v-form class="box">
          <v-text-field
@@ -41,7 +56,11 @@
 </template>
 
 <script>
-import axios from 'axios';
+
+/* import axios from 'axios'; */
+import {EventBus} from '../main';
+import instance from '../service';
+
 export default {
   name: "Formulario",
   data() {
@@ -50,25 +69,48 @@ export default {
         name: '',
         email: ''
       },
-      info: []
+      info: [],
+      visible: false,
+      luz: 'apagada'
+    }
+  },
+  watch: {
+    visible(){
+      this.luz = 'acesa'
     }
   },
   methods:{
     submit(){
-      axios.post("https://vueserver-80315.firebaseio.com/data.json", this.user)
+      
+      instance.post("https://vueserver-80315.firebaseio.com/data.json", this.user)
       .then(response => {
           console.log(response);
       }).catch(error =>{
           console.log(error);
       })
     },
-     async getData(){
+   /*   async getData(){
+       console.log(instance);
       let res = await  axios.get("https://vueserver-80315.firebaseio.com/data.json")
        for(let key in res.data){
          this.info.push(res.data[key]);
-       }
+       }   
+    } */
+
+     async getData(){
+     
+      let res = await  instance.get("https://vueserver-80315.firebaseio.com/data.json")
+       for(let key in res.data){
+         this.info.push(res.data[key]);
+       }   
     }
-  }
+  
+  },
+   created() {
+        EventBus.$on('toggle-loader', (boolean) => {
+            this.visible = boolean;
+        });
+    }
 };
 </script>
 
