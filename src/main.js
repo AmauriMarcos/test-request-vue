@@ -5,10 +5,10 @@ import store from "./store";
 import vuetify from "./plugins/vuetify";
 
 Vue.config.productionTip = false;
-
+/* 
 const EventBus = new Vue();
 export default EventBus;
-
+ */
 new Vue({
   router,
   store,

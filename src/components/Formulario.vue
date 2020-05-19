@@ -1,5 +1,6 @@
 <template>
   <div >
+    
     <p>{{luz}}</p>
     <div id="app" v-if='visible'>
       <v-app id="inspire">
@@ -57,9 +58,9 @@
 
 <script>
 
-/* import axios from 'axios'; */
-import {EventBus} from '../main';
-import instance from '../service';
+import axios from 'axios';
+/* import {EventBus} from '../main'; */
+
 
 export default {
   name: "Formulario",
@@ -82,35 +83,21 @@ export default {
   methods:{
     submit(){
       
-      instance.post("https://vueserver-80315.firebaseio.com/data.json", this.user)
+      axios.post("https://vueserver-80315.firebaseio.com/data.json", this.user)
       .then(response => {
           console.log(response);
       }).catch(error =>{
           console.log(error);
       })
     },
-   /*   async getData(){
-       console.log(instance);
+     async getData(){
+      
       let res = await  axios.get("https://vueserver-80315.firebaseio.com/data.json")
        for(let key in res.data){
          this.info.push(res.data[key]);
        }   
-    } */
-
-     async getData(){
-     
-      let res = await  instance.get("https://vueserver-80315.firebaseio.com/data.json")
-       for(let key in res.data){
-         this.info.push(res.data[key]);
-       }   
     }
-  
-  },
-   created() {
-        EventBus.$on('toggle-loader', (boolean) => {
-            this.visible = boolean;
-        });
-    }
+  }
 };
 </script>
 
