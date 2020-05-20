@@ -1,20 +1,7 @@
 <template>
   <div >
-    
-    <p>{{luz}}</p>
-    <div id="app" v-if='visible'>
-      <v-app id="inspire">
-      <div class="text-center">
-        
-        <v-progress-circular
-          :size="70"
-          :width="7"
-          color="purple"
-          indeterminate
-        ></v-progress-circular> 
-      </div>
-      </v-app>
-    </div>
+
+    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
 
     <v-app>
       <v-form class="box">
@@ -77,13 +64,13 @@ export default {
   },
   watch: {
     visible(){
-      this.luz = 'acesa'
+      this.visible = true
     }
   },
   methods:{
     submit(){
       
-      axios.post("https://vueserver-80315.firebaseio.com/data.json", this.user)
+      axios.post("/data.json", this.user)
       .then(response => {
           console.log(response);
       }).catch(error =>{
@@ -92,17 +79,23 @@ export default {
     },
      async getData(){
       
-      let res = await  axios.get("https://vueserver-80315.firebaseio.com/data.json")
+      let res = await  axios.get("/data.json")
        for(let key in res.data){
          this.info.push(res.data[key]);
        }   
     }
+  },
+  mounted(){
+     this.getData();
+    /*  EventBus.$on('change-value', resposta => {
+       this.luz = resposta
+    }) */
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
+<style lang="scss">
 
   .box{
     border: 1px solid #ccc;
@@ -123,4 +116,27 @@ export default {
     margin-bottom: 1.5rem;
   }
   
+  .loading-indicator:before {
+    content: '';
+    background: #000000cc;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.loading-indicator:after {
+    content: 'Loading';
+    position: fixed;
+    width: 100%;
+    top: 50%;
+    left: 0;
+    z-index: 1001;
+    color:white;
+    text-align:center;
+    font-weight:bold;
+    font-size:1.5rem;        
+}
 </style>
